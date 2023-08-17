@@ -2,7 +2,7 @@ package com.broadcaster.api.entity.broadcast
 
 import com.broadcaster.api.entity.Common
 import com.broadcaster.api.entity.users.Users
-import jakarta.persistence.*
+import javax.persistence.*
 
 @Entity
 @Table(name = "broadcast")
