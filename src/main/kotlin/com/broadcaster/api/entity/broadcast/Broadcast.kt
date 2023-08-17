@@ -8,8 +8,8 @@ import javax.persistence.*
 @Table(name = "broadcast")
 class Broadcast(
     @Id
-    var id:String,
-
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id:Int? = null,
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     var users: Users,

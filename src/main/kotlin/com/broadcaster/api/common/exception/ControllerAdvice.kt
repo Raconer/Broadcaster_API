@@ -41,20 +41,7 @@ class ControllerAdvice : ResponseEntityExceptionHandler() {
     fun handleBadCredentialsException(ex: BadCredentialsException): ResponseEntity<Any> {
         return CommonRes.Except(HttpStatus.UNAUTHORIZED, ex.message)
     }
-
-    @Override
-    protected fun handleMethodArgumentNotValid(
-        ex: MethodArgumentNotValidException,
-        headers: HttpHeaders?,
-        status: HttpStatus?,
-        request: WebRequest?
-    ): ResponseEntity<Any> {
-        val errorList: List<ValidInfo> = ex.bindingResult.fieldErrors.stream().map {
-            ValidInfo(it.field, it.defaultMessage)
-        }.collect(Collectors.toList())
-        return CommonRes.Except(HttpStatus.BAD_REQUEST, errorList)
-    }
-
+    
     override fun handleMethodArgumentNotValid(
         ex: MethodArgumentNotValidException,
         headers: HttpHeaders,

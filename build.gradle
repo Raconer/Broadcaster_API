@@ -23,7 +23,8 @@ dependencies {
     // SPRING
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
-
+    // Validator
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     // Kotlin
     implementation 'org.jetbrains.kotlin:kotlin-reflect'
 
@@ -34,6 +35,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'net.datafaker:datafaker:2.0.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

@@ -1,0 +1,25 @@
+package com.broadcaster.api.dto
+
+import net.datafaker.Faker
+import com.broadcaster.api.dto.sign.SignUpDTO
+
+class SignUp {
+    companion object{
+        private val TEMP_PASSWORD = "1q2w3e4r"
+        private val faker = Faker()
+        fun getData(): SignUpDTO {
+            return SignUpDTO(
+                faker.internet().emailAddress(),
+                TEMP_PASSWORD,
+                faker.name().fullName()
+            )
+        }
+
+        fun getValidData(): SignUpDTO? {
+            return SignUpDTO(
+                "",
+                "",
+                "")
+        }
+    }
+}

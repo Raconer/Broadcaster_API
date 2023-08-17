@@ -17,11 +17,11 @@ abstract class Common {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @CreatedDate
     @Column(nullable = false, updatable = false)
-    private val regDate: LocalDateTime? = null // 생성일시
+    private var regDate: LocalDateTime? = null // 생성일시
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @LastModifiedDate
     @Column(nullable = false)
-    private val modDate: LocalDateTime? = null // 수정일시
+    private var modDate: LocalDateTime? = null // 수정일시
 
 }

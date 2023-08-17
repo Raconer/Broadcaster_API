@@ -15,6 +15,7 @@ class SecurityConfig {
     fun bCryptPasswordEncoder(): BCryptPasswordEncoder {
         return BCryptPasswordEncoder()
     }
+
     @Bean
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
@@ -23,7 +24,9 @@ class SecurityConfig {
             .csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().cors()
-            .and().authorizeRequests().anyRequest().permitAll()
+            .and().authorizeRequests()
+            .antMatchers("/sign/**")
+            .permitAll()
 
         return http.build()
     }
