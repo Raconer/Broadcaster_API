@@ -34,3 +34,7 @@ spring:
 logging:
   level:
     org.hibernate.orm.jdbc.bind: trace
+common:
+  jwt:
+    secret_key: test
+    expire_time: 360000
