@@ -3,7 +3,7 @@ package com.broadcaster.api.entity.follow
 import com.broadcaster.api.entity.Common
 import com.broadcaster.api.entity.broadcast.Broadcast
 import com.broadcaster.api.entity.users.Users
-import jakarta.persistence.*
+import javax.persistence.*
 
 @Entity
 @IdClass(FollowId::class)
