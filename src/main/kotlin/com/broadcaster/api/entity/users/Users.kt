@@ -9,7 +9,7 @@ class Users (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Int? = null,
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     var email:String,
     @Column (nullable = false)
     var password:String,

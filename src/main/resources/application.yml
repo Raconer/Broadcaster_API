@@ -28,12 +28,16 @@ spring:
     open-in-view: false
     defer-datasource-initialization: true
     show-sql: true
-    sql:
-      init:
-        mode: always
+  sql:
+    init:
+      mode: always
 logging:
   level:
-    org.hibernate.orm.jdbc.bind: trace
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
 common:
   jwt:
     secret_key: test

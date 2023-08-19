@@ -19,14 +19,12 @@ class SecurityConfig {
     @Bean
     @Throws(Exception::class)
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
-        http.httpBasic().disable()
-            .formLogin().disable()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        http.httpBasic().disable().formLogin().disable().csrf().disable()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().cors()
             .and().authorizeRequests()
-            .antMatchers("/sign/**")
-            .permitAll()
+            .antMatchers("/sign/**").permitAll()
 
         return http.build()
     }
