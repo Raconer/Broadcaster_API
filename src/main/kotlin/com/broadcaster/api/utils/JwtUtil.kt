@@ -32,7 +32,7 @@ class JwtUtil {
             .compact()
     }
 
-    fun getData(token: String?): Claims? {
+    fun getData(token: String?): Claims {
         isValidate(token)
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).body
     }

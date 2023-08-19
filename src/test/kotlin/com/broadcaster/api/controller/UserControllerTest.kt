@@ -1,8 +1,11 @@
 package com.broadcaster.api.controller
 
+import com.broadcaster.api.dto.SignIn
+import com.broadcaster.api.utils.JwtUtil
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -16,10 +19,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 @ActiveProfiles(profiles = ["default"])
 class UserControllerTest @Autowired constructor(
-    private val mockMvc: MockMvc
+    private val mockMvc: MockMvc,
+    private val jwtUtil: JwtUtil
 ) {
 
     private val PATH:String = "/"
+    private lateinit var token:String
+
+    @BeforeEach
+    fun setUpEach(){
+        this.token = this.jwtUtil.create(SignIn.EMAIL)
+    }
 
     @Test
     fun get() {
@@ -27,6 +37,7 @@ class UserControllerTest @Autowired constructor(
         // WHEN & THEN
         mockMvc.perform(
             MockMvcRequestBuilders.get(PATH)
+                .header("Authorization", "Bearer ${this.token}")
         ).andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(MockMvcResultHandlers.print())
     }

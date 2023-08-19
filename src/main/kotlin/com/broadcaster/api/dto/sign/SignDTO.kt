@@ -19,7 +19,7 @@ data class SignDTO(
     }
 
     override fun getUsername(): String {
-        return this.username
+        return this.email
     }
 
     override fun isAccountNonExpired(): Boolean {
