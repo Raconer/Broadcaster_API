@@ -15,7 +15,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles(profiles = ["default"])
+@ActiveProfiles(profiles = ["test", "default"])
 class UserControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
     private val jwtUtil: JwtUtil
@@ -34,7 +34,7 @@ class UserControllerTest @Autowired constructor(
         // GIVEN
         // WHEN & THEN
         mockMvc.perform(
-            MockMvcRequestBuilders.get(PATH)
+            MockMvcRequestBuilders.get(this.PATH)
                 .header("Authorization", "Bearer ${this.token}")
         ).andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(MockMvcResultHandlers.print())

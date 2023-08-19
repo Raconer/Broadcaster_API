@@ -29,7 +29,7 @@ class SignControllerTest @Autowired constructor(
     fun signUpTest() {
         // GIVEN
         val signUpDTO = SignUp.getData()
-        val jsonBody: String = ConverterUtil.getJsonString(signUpDTO)!!;
+        val jsonBody: String = ConverterUtil.getJsonString(signUpDTO)!!
         // WHEN & THEN
         mockMvc.perform(
             MockMvcRequestBuilders.post("${this.PATH}/up")
@@ -50,7 +50,7 @@ class SignControllerTest @Autowired constructor(
             MockMvcRequestBuilders.post("${this.PATH}/up")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(jsonBody)
-        ).andExpect(MockMvcResultMatchers.status().isOk)
+        ).andExpect(MockMvcResultMatchers.status().isBadRequest)
             .andDo(MockMvcResultHandlers.print())
     }
 

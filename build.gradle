@@ -3,9 +3,10 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id 'org.springframework.boot' version '2.7.14'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-    id 'org.jetbrains.kotlin.jvm' version '1.6.21'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.0'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.6.21'
     id "org.jetbrains.kotlin.plugin.jpa" version "1.6.21"
+    id "org.jetbrains.kotlin.kapt" version "1.9.0"
 }
 
 group = 'com.broadcaster'
@@ -17,6 +18,15 @@ java {
 
 repositories {
     mavenCentral()
+    maven {
+        url = uri("https://plugins.gradle.org/m2/")
+    }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 dependencies {
@@ -31,7 +41,10 @@ dependencies {
     // DB
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
+    // QueryDSL 설정
+    implementation("com.querydsl:querydsl-jpa:5.0.0")
+    kapt("com.querydsl:querydsl-apt:5.0.0:jpa")
+    // QueryDSL END
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
