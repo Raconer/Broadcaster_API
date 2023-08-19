@@ -1,6 +1,5 @@
 package com.broadcaster.api.service
 
-import com.broadcaster.api.dto.sign.SignDTO
 import com.broadcaster.api.dto.sign.SignInDTO
 import com.broadcaster.api.dto.sign.SignUpDTO
 import com.broadcaster.api.entity.users.Users

@@ -2,11 +2,9 @@ package com.broadcaster.api.controller
 
 import com.broadcaster.api.dto.SignIn
 import com.broadcaster.api.dto.SignUp
-import com.broadcaster.api.dto.sign.SignInDTO
 import com.broadcaster.api.utils.ConverterUtil
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest

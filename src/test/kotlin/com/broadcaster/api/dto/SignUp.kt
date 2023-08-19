@@ -1,7 +1,7 @@
 package com.broadcaster.api.dto
 
-import net.datafaker.Faker
 import com.broadcaster.api.dto.sign.SignUpDTO
+import net.datafaker.Faker
 
 class SignUp {
     companion object{
