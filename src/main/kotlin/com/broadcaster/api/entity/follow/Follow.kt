@@ -27,4 +27,8 @@ class Follow (
     @Column(nullable = false)
     var userStatus: FollowStatus? = FollowStatus.NORMAL
 
-):Common()
+):Common(){
+    fun isStatus():Boolean{
+        return this.broadcastStatus == FollowStatus.NORMAL && this.userStatus == FollowStatus.NORMAL
+    }
+}
