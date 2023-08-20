@@ -34,6 +34,11 @@ class BroadcastService(
     }
 
     @Transactional(readOnly = true)
+    fun getById(id:Long) :Broadcast{
+        return this.broadcastRepository.findById(id)
+    }
+
+    @Transactional(readOnly = true)
     fun getList(pageDTO: PageDTO): List<BroadcastDataDTO> {
         return this.broadcastRepositoryImpl.getList(pageDTO)
     }

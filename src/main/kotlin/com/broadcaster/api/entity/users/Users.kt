@@ -1,6 +1,7 @@
 package com.broadcaster.api.entity.users
 
 import com.broadcaster.api.entity.Common
+import com.broadcaster.api.entity.follow.Follow
 import javax.persistence.*
 
 @Entity
@@ -14,6 +15,8 @@ class Users (
     @Column (nullable = false)
     var password:String,
     @Column(nullable = false)
-    var name:String
+    var name:String,
+    @OneToMany(mappedBy = "users")
+    var follows: MutableList<Follow> = ArrayList()
 ): Common(){
 }

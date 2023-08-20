@@ -29,11 +29,18 @@ class ControllerAdvice : ResponseEntityExceptionHandler() {
         return CommonRes.Except(HttpStatus.INTERNAL_SERVER_ERROR, ex.message)
     }
 
+    @ExceptionHandler(value = [CustomException::class])
+    protected fun handleCustomException(e: CustomException): ResponseEntity<Any> {
+        logger.error("handleCustomException : " + e.cause.toString())
+        return CommonRes.Except(HttpStatus.INTERNAL_SERVER_ERROR, e.msg)
+    }
+
     @ExceptionHandler(UsernameNotFoundException::class)
     fun handleUsernameNotFoundException(ex: UsernameNotFoundException): ResponseEntity<Any> {
         error(
             "handleUsernameNotFoundException occurred: ${ex.message}"
         )
+
         return CommonRes.Except(HttpStatus.UNAUTHORIZED, ex.message)
     }
 
