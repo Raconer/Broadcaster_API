@@ -1,11 +1,9 @@
 package com.broadcaster.api.controller
 
-import com.broadcaster.api.dto.SignIn
+import com.broadcaster.api.dto.Broadcast
 import com.broadcaster.api.utils.JwtUtil
-import org.junit.jupiter.api.Test
-
-import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -14,9 +12,11 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
+import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 @ActiveProfiles(profiles = ["test","default"])
 class BroadcastControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
@@ -27,7 +27,7 @@ class BroadcastControllerTest @Autowired constructor(
 
     @BeforeEach
     fun setUpEach(){
-        this.token = this.jwtUtil.create(SignIn.EMAIL)
+        this.token = this.jwtUtil.create(Broadcast.EMAIL)
     }
 
     @Test
@@ -44,10 +44,12 @@ class BroadcastControllerTest @Autowired constructor(
     @Test
     fun getList() {
         // GIVEN
+        var params = Broadcast.getSearchData()
         // WHEN & THEN
         mockMvc.perform(
             MockMvcRequestBuilders.get(this.PATH)
                 .header("Authorization", "Bearer ${this.token}")
+                .params(params)
         ).andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(MockMvcResultHandlers.print())
     }

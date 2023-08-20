@@ -1,16 +1,14 @@
 package com.broadcaster.api.controller
 
 import com.broadcaster.api.common.response.CommonRes
+import com.broadcaster.api.dto.PageDTO
+import com.broadcaster.api.dto.broadcast.BroadcastDataDTO
 import com.broadcaster.api.dto.sign.SignDTO
-import com.broadcaster.api.entity.broadcast.Broadcast
 import com.broadcaster.api.service.BroadcastService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.annotation.AuthenticationPrincipal
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping("/broadcast")
@@ -25,8 +23,9 @@ class BroadcastController (
     }
 
     @GetMapping
-    fun getList(): ResponseEntity<out Any>{
-        val  broadcastList:List<Broadcast> = this.broadcastService.getList()
+    fun getList(@ModelAttribute pageDTO: PageDTO): ResponseEntity<out Any>{
+        println(pageDTO)
+        val broadcastList:List<BroadcastDataDTO> = this.broadcastService.getList(pageDTO)
         return CommonRes.Def(broadcastList)
     }
 }

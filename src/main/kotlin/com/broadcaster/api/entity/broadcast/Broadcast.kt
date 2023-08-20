@@ -9,7 +9,7 @@ import javax.persistence.*
 class Broadcast(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int? = null,
+    var id:Long? = null,
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     var users: Users,
