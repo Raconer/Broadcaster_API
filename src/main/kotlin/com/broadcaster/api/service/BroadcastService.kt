@@ -49,10 +49,14 @@ class BroadcastService(
     fun update(broadcastUpdateDTO: BroadcastUpdateDTO, email: String) {
         val broadcast = this.broadcastRepositoryImpl.getByEmail(email)!!
 
-        var follow:Follow = this.followService.getByIds(broadcast.id!!, broadcastUpdateDTO.usersId) ?: throw CustomException("Not Follow Data")
+        var follow:Follow? = this.followService.getByIds(broadcast.id!!, broadcastUpdateDTO.usersId)
+
+        if(follow == null){
+            val users = Users(broadcastUpdateDTO.usersId)
+            follow = Follow(broadcast, users)
+        }
 
         follow.broadcastStatus = broadcastUpdateDTO.followStatus
         this.followService.update(follow)
     }
-
 }

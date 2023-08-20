@@ -1,6 +1,9 @@
 package com.broadcaster.api.dto
 
+import com.broadcaster.api.constant.FollowStatus
+import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.follow.FollowDTO
+import com.broadcaster.api.dto.follow.FollowUpdateDTO
 
 class Follow {
     companion object{
@@ -12,6 +15,8 @@ class Follow {
                 this.BROADCAST_ID
             )
         }
-
+        fun getBlockData(): FollowUpdateDTO {
+            return FollowUpdateDTO(1L, FollowStatus.BLOCK)
+        }
     }
 }

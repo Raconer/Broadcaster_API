@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+//@Transactional
 @ActiveProfiles(profiles = ["test","default"])
 class BroadcastControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
@@ -60,7 +60,7 @@ class BroadcastControllerTest @Autowired constructor(
     }
 
     @Test
-    @DisplayName("유저 Block 테스트")
+    @DisplayName("유저 Block 테스트 (DJ(pk:1) BLOCK -> USER(pk:11))")
     fun update() {
         // GIVEN
         val djToken:String = this.jwtUtil.create(Broadcast.DJ_EMAIL)
