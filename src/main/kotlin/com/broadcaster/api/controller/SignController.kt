@@ -17,7 +17,7 @@ import javax.validation.Valid
 class SignController (
     private val signService: SignService
 ){
-    @PostMapping("/up")
+    @PostMapping( "/up")
     fun signUp(@RequestBody @Valid signUpDTO: SignUpDTO): ResponseEntity<out Any>{
         this.signService.insert(signUpDTO)
         return CommonRes.Basic(HttpStatus.OK)

@@ -33,7 +33,7 @@ class JwtRequestFilter(
 
             val claims = this.jwtUtil.getData(token)
             val email: String = claims["email"] as String
-            val signDTO: SignDTO = this.userService.loadUserByUsername(email)
+            val signDTO = SignDTO(email = email)
             val authenticationToken = UsernamePasswordAuthenticationToken(signDTO, null, signDTO.authorities)
             SecurityContextHolder.getContext().authentication = authenticationToken
         }

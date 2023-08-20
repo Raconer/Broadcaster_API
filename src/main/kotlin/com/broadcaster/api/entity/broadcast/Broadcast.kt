@@ -11,7 +11,7 @@ class Broadcast(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Int? = null,
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", unique = true)
     var users: Users,
     @Column(nullable = false)
     var name: String

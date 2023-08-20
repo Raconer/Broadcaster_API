@@ -5,11 +5,10 @@ import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.stereotype.Repository
 
 @Repository
-class BroadcastRepositoryImpl (
+class BroadcastRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
-){
-
-    fun get(){
+) {
+    fun get() {
         val qBroadcast = QBroadcast.broadcast
         this.jpaQueryFactory.selectFrom(qBroadcast).fetch()
 
