@@ -1,5 +1,6 @@
 package com.broadcaster.api.controller
 
+import com.broadcaster.api.dto.Broadcast
 import com.broadcaster.api.dto.Follow
 import com.broadcaster.api.utils.ConverterUtil
 import com.broadcaster.api.utils.JwtUtil
@@ -19,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Transactional
+//@Transactional
 @ActiveProfiles(profiles = ["test","default"])
 class FollowControllerTest  @Autowired constructor(
     private val mockMvc: MockMvc,
@@ -44,6 +45,22 @@ class FollowControllerTest  @Autowired constructor(
         mockMvc.perform(
             MockMvcRequestBuilders.post(this.PATH)
                 .header("Authorization", "Bearer ${this.token}")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(jsonBody)
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    @DisplayName("Broadcast Block 테스트(USER(pk:11) BLOCK -> DJ(pk:1))")
+    fun update() {
+        // GIVEN
+        var broadcastBlockDTO = Follow.getBlockData()
+        val jsonBody: String = ConverterUtil.getJsonString(broadcastBlockDTO)!!
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.put(this.PATH)
+                .header("Authorization", "Bearer $token")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(jsonBody)
         ).andExpect(MockMvcResultMatchers.status().isOk)

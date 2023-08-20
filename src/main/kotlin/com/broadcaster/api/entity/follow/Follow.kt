@@ -21,10 +21,10 @@ class Follow (
     @JoinColumn(name = "users_id", referencedColumnName = "id")
     val users: Users,
 
-    @Column(nullable = false)
-    var broadcastStatus: FollowStatus? = null,
+    @Column(nullable = false, )
+    var broadcastStatus: FollowStatus? = FollowStatus.NORMAL,
 
     @Column(nullable = false)
-    var userStatus: FollowStatus? = null
+    var userStatus: FollowStatus? = FollowStatus.NORMAL
 
 ):Common()

@@ -16,11 +16,12 @@ class BroadcastRepositoryImpl(
 ) {
     fun getByEmail(email: String): Broadcast? {
         val qBroadcast = QBroadcast.broadcast
-
+        val qUsers = QUsers.users
         return this.jpaQueryFactory
                     .select(qBroadcast)
                     .from(qBroadcast)
-                    .where(qBroadcast.users.email.eq(email))
+                    .join(qBroadcast.users, qUsers)
+                    .where(qUsers.email.eq(email))
                     .fetchOne()
     }
 

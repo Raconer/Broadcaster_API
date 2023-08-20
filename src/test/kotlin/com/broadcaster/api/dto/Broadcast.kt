@@ -17,7 +17,7 @@ class Broadcast {
         }
 
         fun getBlockData(): BroadcastUpdateDTO {
-            return BroadcastUpdateDTO(2L, FollowStatus.BLOCK)
+            return BroadcastUpdateDTO(11L, FollowStatus.BLOCK)
         }
     }
 
