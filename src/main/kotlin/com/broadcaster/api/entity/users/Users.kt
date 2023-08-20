@@ -8,7 +8,7 @@ import javax.persistence.*
 class Users (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id:Int? = null,
+    var id:Long? = null,
     @Column(nullable = false, unique = true)
     var email:String,
     @Column (nullable = false)

@@ -11,7 +11,7 @@ class UserController(
 
     @GetMapping
     fun get():String{
-        this.broadcastRepositoryImpl.get()
+//        this.broadcastRepositoryImpl.get()
         return "Success"
     }
 }

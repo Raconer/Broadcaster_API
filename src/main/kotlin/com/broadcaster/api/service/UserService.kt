@@ -13,10 +13,13 @@ class UserService(
     private val usersRepository: UsersRepository,
 ) : UserDetailsService {
     @Transactional(readOnly = true)
-
     override fun loadUserByUsername(email: String): SignDTO {
-        val users: Users = this.usersRepository.findByEmail(email)
-            ?: throw UsernameNotFoundException("Not Found Users")
+        val users: Users = this.getByEmail(email)
         return SignDTO(users.email)
+    }
+
+    fun getByEmail(email: String):Users{
+        return  this.usersRepository.findByEmail(email)
+            ?: throw UsernameNotFoundException("Not Found Users")
     }
 }
