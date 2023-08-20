@@ -38,7 +38,7 @@ class SecurityConfig(
             .anyRequest().authenticated()
             .and().addFilterBefore(
                 JwtRequestFilter(
-                    userService, jwtUtil
+                    jwtUtil
                 ), UsernamePasswordAuthenticationFilter::class.java
             )
 

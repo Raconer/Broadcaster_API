@@ -22,9 +22,9 @@ class Follow (
     val users: Users,
 
     @Column(nullable = false)
-    var broadcastStatus: FollowStatus,
+    var broadcastStatus: FollowStatus? = null,
 
     @Column(nullable = false)
-    var userStatus: FollowStatus
+    var userStatus: FollowStatus? = null
 
 ):Common()

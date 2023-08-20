@@ -11,11 +11,11 @@ class Users (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id:Long? = null,
     @Column(nullable = false, unique = true)
-    var email:String,
+    var email:String? = null,
     @Column (nullable = false)
-    var password:String,
+    var password:String? = null,
     @Column(nullable = false)
-    var name:String,
+    var name:String? = null,
     @OneToMany(mappedBy = "users")
     var follows: MutableList<Follow> = ArrayList()
 ): Common(){

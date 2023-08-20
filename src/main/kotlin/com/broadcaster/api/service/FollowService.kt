@@ -6,7 +6,6 @@ import com.broadcaster.api.dto.follow.FollowDTO
 import com.broadcaster.api.entity.broadcast.Broadcast
 import com.broadcaster.api.entity.follow.Follow
 import com.broadcaster.api.repository.follow.FollowRepository
-import com.broadcaster.api.repository.follow.impl.FollowRepositoryImpl
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
 import org.springframework.transaction.annotation.Transactional
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional
 class FollowService(
     private val followRepository: FollowRepository,
-    private val followRepositoryImpl: FollowRepositoryImpl,
     private val userService: UserService,
 ) {
     @Transactional(
@@ -23,7 +21,7 @@ class FollowService(
         rollbackFor = [Exception::class]
     )
     fun insert(followDTO: FollowDTO, email: String) {
-        this.followRepositoryImpl.getFollowByBroadcastIdAndUserEmail(followDTO.broadcastId!!, email)?.let{
+        this.followRepository.findByBroadcastIdAndUsersEmail(followDTO.broadcastId!!, email)?.let{
             throw CustomException("Already Data")
         }
 
@@ -31,9 +29,22 @@ class FollowService(
         val broadcast = Broadcast(id = followDTO.broadcastId!!)
 
         val follow = Follow(broadcast, users, FollowStatus.NORMAL, FollowStatus.NORMAL)
-        users.follows.add(follow)
-        broadcast.follows.add(follow)
 
+        // users.follows.add(follow)
+        // broadcast.follows.add(follow)
+
+        this.followRepository.saveAndFlush(follow)
+    }
+
+    fun getByIds(broadcastId:Long, usersId:Long):Follow?{
+        return this.followRepository.findByBroadcastIdAndUsersId(broadcastId, usersId)
+    }
+
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        rollbackFor = [Exception::class]
+    )
+    fun update(follow: Follow) {
         this.followRepository.saveAndFlush(follow)
     }
 }

@@ -23,7 +23,6 @@ class FollowController(
         @RequestBody @Valid followDTO: FollowDTO,
         @AuthenticationPrincipal signDTO: SignDTO
     ): ResponseEntity<out Any> {
-        println("123")
         this.followService.insert(followDTO, signDTO.username)
         return CommonRes.Basic(HttpStatus.OK)
     }

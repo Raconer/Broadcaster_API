@@ -11,16 +11,12 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
 class JwtRequestFilter(
-    private val userService: UserService,
-    private val jwtUtil: JwtUtil,
-
-    ) : OncePerRequestFilter() {
+    private val jwtUtil: JwtUtil
+) : OncePerRequestFilter() {
 
     private val EXCLUDE_URL = arrayListOf("/sign/up", "sign/in")
     private val TOKEN_PREFIX: String = "Bearer "
     private val SUB_LEN: Int = this.TOKEN_PREFIX.length
-
-
     override fun doFilterInternal(
         request: HttpServletRequest,
         response: HttpServletResponse,
@@ -42,7 +38,7 @@ class JwtRequestFilter(
     }
 
     override fun shouldNotFilter(request: HttpServletRequest): Boolean {
-        return this.EXCLUDE_URL.stream().findFirst().filter{
+        return this.EXCLUDE_URL.stream().findFirst().filter {
             it.equals(request.requestURI)
         }.isPresent
     }
