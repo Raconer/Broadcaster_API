@@ -1,6 +1,7 @@
 package com.broadcaster.api.service
 
 import com.broadcaster.api.common.exception.CustomException
+import com.broadcaster.api.constant.FollowStatus
 import com.broadcaster.api.dto.PageDTO
 import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.broadcast.BroadcastDataDTO
@@ -19,7 +20,8 @@ class BroadcastService(
     private val broadcastRepositoryImpl: BroadcastRepositoryImpl,
     private val broadcastRepository: BroadcastRepository,
     private val userService: UserService,
-    private val followService: FollowService
+    private val followService: FollowService,
+    private val redisService: RedisService
 ) {
 
     @Transactional(
@@ -56,7 +58,21 @@ class BroadcastService(
             follow = Follow(broadcast, users)
         }
 
-        follow.broadcastStatus = broadcastUpdateDTO.followStatus
+        if(follow.broadcastStatus != broadcastUpdateDTO.followStatus){
+            follow.broadcastStatus = broadcastUpdateDTO.followStatus
+
+        }
+
         this.followService.update(follow)
+
+        // Users 상태가 Normal 일때 FollowCnt 변화가 생긴다.
+        if(follow.userStatus == FollowStatus.NORMAL){
+            var followAddtion = 1
+            // 변경 할려는 데이터가 Block 이면 -1
+            if(broadcastUpdateDTO.followStatus != FollowStatus.NORMAL) followAddtion = -1
+
+            this.redisService.sortSetBroadCast(broadcast.id!!, followAddtion)
+        }
+
     }
 }

@@ -33,10 +33,8 @@ class FollowService(
 
         val follow = Follow(broadcast, users)
 
-        // users.follows.add(follow)
-        // broadcast.follows.add(follow)
-
         this.followRepository.saveAndFlush(follow)
+
         this.redisService.sortSetBroadCast(broadcast.id!!, 1)
     }
 
@@ -67,8 +65,19 @@ class FollowService(
             val users = this.userService.getByEmail(email)
             follow = Follow(broadcast, users)
         }
+
         follow.userStatus = followUpdateDTO.followStatus
 
         this.followRepository.saveAndFlush(follow)
+
+        // Broadcat 상태가 Normal 일때 FollowCnt 변화가 생긴다.
+        if(follow.broadcastStatus == FollowStatus.NORMAL){
+            var followAddtion = 1
+            // 변경 할려는 데이터가 Block 이면 -1
+            if(followUpdateDTO.followStatus != FollowStatus.NORMAL) followAddtion = -1
+
+            this.redisService.sortSetBroadCast(followUpdateDTO.broadcastId, followAddtion)
+        }
+
     }
 }
