@@ -5,5 +5,6 @@ import com.broadcaster.api.entity.follow.FollowId
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface FollowRepository:JpaRepository<Follow, FollowId> {
-    fun findByBroadcast_IdAndUsers_Email(broadcastId:Long, usersEmail:String):Follow?
+    fun findByBroadcastIdAndUsersId(broadcastId: Long, usersId:Long):Follow?
+    fun findByBroadcastIdAndUsersEmail(broadcastId:Long, usersEmail:String):Follow?
 }

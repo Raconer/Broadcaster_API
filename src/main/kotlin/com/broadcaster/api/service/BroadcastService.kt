@@ -1,9 +1,12 @@
 package com.broadcaster.api.service
 
+import com.broadcaster.api.common.exception.CustomException
 import com.broadcaster.api.dto.PageDTO
+import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.broadcast.BroadcastDataDTO
 import com.broadcaster.api.dto.sign.SignDTO
 import com.broadcaster.api.entity.broadcast.Broadcast
+import com.broadcaster.api.entity.follow.Follow
 import com.broadcaster.api.entity.users.Users
 import com.broadcaster.api.repository.broadcast.BroadcastRepository
 import com.broadcaster.api.repository.broadcast.impl.BroadcastRepositoryImpl
@@ -15,7 +18,8 @@ import org.springframework.transaction.annotation.Transactional
 class BroadcastService(
     private val broadcastRepositoryImpl: BroadcastRepositoryImpl,
     private val broadcastRepository: BroadcastRepository,
-    private val userService: UserService
+    private val userService: UserService,
+    private val followService: FollowService
 ) {
 
     @Transactional(
@@ -34,12 +38,21 @@ class BroadcastService(
     }
 
     @Transactional(readOnly = true)
-    fun getById(id:Long) :Broadcast{
-        return this.broadcastRepository.findById(id)
-    }
-
-    @Transactional(readOnly = true)
     fun getList(pageDTO: PageDTO): List<BroadcastDataDTO> {
         return this.broadcastRepositoryImpl.getList(pageDTO)
     }
+
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        rollbackFor = [Exception::class]
+    )
+    fun update(broadcastUpdateDTO: BroadcastUpdateDTO, email: String) {
+        val broadcast = this.broadcastRepositoryImpl.getByEmail(email)!!
+
+        var follow:Follow = this.followService.getByIds(broadcast.id!!, broadcastUpdateDTO.usersId) ?: throw CustomException("Not Follow Data")
+
+        follow.broadcastStatus = broadcastUpdateDTO.followStatus
+        this.followService.update(follow)
+    }
+
 }

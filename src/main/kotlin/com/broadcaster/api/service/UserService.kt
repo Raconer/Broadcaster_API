@@ -15,7 +15,7 @@ class UserService(
     @Transactional(readOnly = true)
     override fun loadUserByUsername(email: String): SignDTO {
         val users: Users = this.getByEmail(email)
-        return SignDTO(users.email)
+        return SignDTO(users.email!!)
     }
 
     @Transactional(readOnly = true)
