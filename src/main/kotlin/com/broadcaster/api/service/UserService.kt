@@ -18,8 +18,9 @@ class UserService(
         return SignDTO(users.email)
     }
 
-    fun getByEmail(email: String):Users{
-        return  this.usersRepository.findByEmail(email)
+    @Transactional(readOnly = true)
+    fun getByEmail(email: String): Users {
+        return this.usersRepository.findByEmail(email)
             ?: throw UsernameNotFoundException("Not Found Users")
     }
 }

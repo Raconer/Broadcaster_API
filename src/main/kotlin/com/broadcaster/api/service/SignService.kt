@@ -33,6 +33,7 @@ class SignService(
         this.usersRepository.save(users)
     }
 
+    @Transactional(readOnly = true)
     fun signIn(signInDTO: SignInDTO) : SignInDTO.Response{
         val email = signInDTO.email
         var signDTO = this.userService.loadUserByUsername(email)

@@ -18,7 +18,10 @@ class BroadcastService(
     private val userService: UserService
 ) {
 
-    @Transactional(isolation = Isolation.READ_COMMITTED)
+    @Transactional(
+        isolation = Isolation.READ_COMMITTED,
+        rollbackFor = [Exception::class]
+    )
     fun insert(signDTO: SignDTO) {
         val users: Users = this.userService.getByEmail(signDTO.username)
 
