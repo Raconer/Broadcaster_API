@@ -41,6 +41,8 @@ dependencies {
     // DB
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    // Redis
+    implementation 'org.redisson:redisson-spring-boot-starter:3.21.1'
     // QueryDSL 설정
     implementation("com.querydsl:querydsl-jpa:5.0.0")
     kapt("com.querydsl:querydsl-apt:5.0.0:jpa")

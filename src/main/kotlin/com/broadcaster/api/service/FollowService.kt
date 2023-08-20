@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional
 class FollowService(
     private val followRepository: FollowRepository,
     private val userService: UserService,
+    private val redisService: RedisService
 ) {
     @Transactional(
         isolation = Isolation.READ_COMMITTED,
@@ -36,6 +37,7 @@ class FollowService(
         // broadcast.follows.add(follow)
 
         this.followRepository.saveAndFlush(follow)
+        this.redisService.sortSetBroadCast(broadcast.id!!, 1)
     }
 
     fun getByIds(broadcastId:Long, usersId:Long):Follow?{
