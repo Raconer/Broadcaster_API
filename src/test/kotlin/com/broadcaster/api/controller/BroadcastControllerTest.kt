@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @SpringBootTest
 @AutoConfigureMockMvc
-//@Transactional
+@Transactional
 @ActiveProfiles(profiles = ["test","default"])
 class BroadcastControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
