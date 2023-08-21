@@ -1,7 +1,6 @@
 package com.broadcaster.api.config.security
 
 import com.broadcaster.api.dto.sign.SignDTO
-import com.broadcaster.api.service.UserService
 import com.broadcaster.api.utils.JwtUtil
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder

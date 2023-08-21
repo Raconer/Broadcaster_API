@@ -1,6 +1,5 @@
 package com.broadcaster.api.controller
 
-import com.broadcaster.api.dto.Broadcast
 import com.broadcaster.api.dto.Follow
 import com.broadcaster.api.utils.ConverterUtil
 import com.broadcaster.api.utils.JwtUtil

@@ -5,7 +5,7 @@ import net.datafaker.Faker
 
 class SignUp {
     companion object{
-        private val DUPLICATE_EMAIL = "christopher1.kling@hotmail.com"
+        private val DUPLICATE_EMAIL = "test1@email.com"
         private val TEMP_PASSWORD = "1q2w3e4r"
         private val faker = Faker()
 

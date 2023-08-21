@@ -6,7 +6,6 @@ import com.broadcaster.api.dto.follow.FollowDTO
 import com.broadcaster.api.dto.follow.FollowUpdateDTO
 import com.broadcaster.api.entity.broadcast.Broadcast
 import com.broadcaster.api.entity.follow.Follow
-import com.broadcaster.api.entity.users.Users
 import com.broadcaster.api.repository.follow.FollowRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Isolation
