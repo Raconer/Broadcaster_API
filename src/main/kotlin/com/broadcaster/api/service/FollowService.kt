@@ -35,7 +35,7 @@ class FollowService(
 
         this.followRepository.saveAndFlush(follow)
 
-        this.redisService.sortSetBroadCast(broadcast.id!!, 1)
+        this.redisService.setSortBroadCast(broadcast.id!!, 1)
     }
 
     fun getByIds(broadcastId:Long, usersId:Long):Follow?{
@@ -76,7 +76,7 @@ class FollowService(
             // 변경 할려는 데이터가 Block 이면 -1
             if(followUpdateDTO.followStatus != FollowStatus.NORMAL) followAddtion = -1
 
-            this.redisService.sortSetBroadCast(followUpdateDTO.broadcastId, followAddtion)
+            this.redisService.setSortBroadCast(followUpdateDTO.broadcastId, followAddtion)
         }
 
     }

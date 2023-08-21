@@ -20,16 +20,16 @@ import org.springframework.transaction.annotation.Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-@ActiveProfiles(profiles = ["test","default"])
+@ActiveProfiles(profiles = ["test", "default"])
 class BroadcastControllerTest @Autowired constructor(
     private val mockMvc: MockMvc,
     private val jwtUtil: JwtUtil
-)  {
-    private val PATH:String = "/broadcast"
-    private lateinit var token:String
+) {
+    private val PATH: String = "/broadcast"
+    private lateinit var token: String
 
     @BeforeEach
-    fun setUpEach(){
+    fun setUpEach() {
         this.token = this.jwtUtil.create(Broadcast.EMAIL)
     }
 
@@ -44,6 +44,67 @@ class BroadcastControllerTest @Autowired constructor(
         ).andExpect(MockMvcResultMatchers.status().isOk)
             .andDo(MockMvcResultHandlers.print())
     }
+
+    @Test
+    @DisplayName("방속국 프로필 조회")
+    fun get() {
+        // GIVEN
+        val followToken: String = this.jwtUtil.create(Broadcast.FOLLOW_EMAIL)
+        val broadcastId:Long = Broadcast.DJ_ID
+
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("${this.PATH}/$broadcastId")
+                .header("Authorization", "Bearer $followToken")
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    @DisplayName("방속국 프로필 조회 - 방송국에서 차단시")
+    fun getBlockBroadcast() {
+        // GIVEN
+        val followToken: String = this.jwtUtil.create(Broadcast.FOLLOW_EMAIL)
+        val broadcastId:Long = Broadcast.FOLLOW_BROADCAST_BLOCK_ID
+
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("${this.PATH}/$broadcastId")
+                .header("Authorization", "Bearer $followToken")
+        ).andExpect(MockMvcResultMatchers.status().isInternalServerError)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    @DisplayName("방속국 프로필 조회 - 유저가 차단시")
+    fun getBlockUser() {
+        // GIVEN
+        val followToken: String = this.jwtUtil.create(Broadcast.FOLLOW_EMAIL)
+        val broadcastId:Long = Broadcast.FOLLOW_USER_BLOCK_ID
+
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("${this.PATH}/$broadcastId")
+                .header("Authorization", "Bearer $followToken")
+        ).andExpect(MockMvcResultMatchers.status().isInternalServerError)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    @DisplayName("방속국 프로필 조회 - 둘다 차단시")
+    fun getBlockMulti() {
+        // GIVEN
+        val followToken: String = this.jwtUtil.create(Broadcast.FOLLOW_EMAIL)
+        val broadcastId:Long = Broadcast.FOLLOW_MULTIPLE_BLOCK_ID
+
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("${this.PATH}/$broadcastId")
+                .header("Authorization", "Bearer $followToken")
+        ).andExpect(MockMvcResultMatchers.status().isInternalServerError)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
 
     @Test
     @DisplayName("방송국 리스트 테스트")
@@ -63,7 +124,7 @@ class BroadcastControllerTest @Autowired constructor(
     @DisplayName("유저 Block 테스트 (DJ(pk:1) BLOCK -> USER(pk:11))")
     fun update() {
         // GIVEN
-        val djToken:String = this.jwtUtil.create(Broadcast.DJ_EMAIL)
+        val djToken: String = this.jwtUtil.create(Broadcast.DJ_EMAIL)
 
         var broadcastBlockDTO = Broadcast.getBlockData()
         val jsonBody: String = ConverterUtil.getJsonString(broadcastBlockDTO)!!

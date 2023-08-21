@@ -5,6 +5,7 @@ import com.broadcaster.api.dto.PageDTO
 import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.broadcast.BroadcastDataDTO
 import com.broadcaster.api.dto.sign.SignDTO
+import com.broadcaster.api.entity.Common
 import com.broadcaster.api.service.BroadcastService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -22,6 +23,12 @@ class BroadcastController (
     fun insert(@AuthenticationPrincipal signDTO: SignDTO): ResponseEntity<out Any>{
         this.broadcastService.insert(signDTO)
         return CommonRes.Basic(HttpStatus.OK)
+    }
+
+    @GetMapping("/{id}")
+    fun get(@PathVariable("id") id:Long, @AuthenticationPrincipal signDTO: SignDTO) : ResponseEntity<out Any>{
+        val broadcastDetailDTO = this.broadcastService.get(id, signDTO.username)
+        return CommonRes.Def(broadcastDetailDTO)
     }
 
     @GetMapping
