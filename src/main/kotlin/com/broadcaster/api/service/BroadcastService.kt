@@ -1,10 +1,10 @@
 package com.broadcaster.api.service
 
-import com.broadcaster.api.common.exception.CustomException
 import com.broadcaster.api.constant.FollowStatus
 import com.broadcaster.api.dto.PageDTO
-import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.broadcast.BroadcastDataDTO
+import com.broadcaster.api.dto.broadcast.BroadcastDetailDTO
+import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.sign.SignDTO
 import com.broadcaster.api.entity.broadcast.Broadcast
 import com.broadcaster.api.entity.follow.Follow
@@ -37,6 +37,15 @@ class BroadcastService(
         )
 
         this.broadcastRepository.save(broadcast)
+        this.redisService.setSortBroadCast(broadcast.id!!, 0)
+    }
+
+    @Transactional(readOnly = true)
+    fun get(id:Long, email:String):BroadcastDetailDTO{
+        var users:Users = this.userService.getByEmail(email)
+        var broadcastDetailDTO:BroadcastDetailDTO = this.broadcastRepositoryImpl.get(id, users.id!!)
+        broadcastDetailDTO.followCount = this.redisService.getSortBroadCast(id)
+        return broadcastDetailDTO
     }
 
     @Transactional(readOnly = true)
@@ -71,7 +80,7 @@ class BroadcastService(
             // 변경 할려는 데이터가 Block 이면 -1
             if(broadcastUpdateDTO.followStatus != FollowStatus.NORMAL) followAddtion = -1
 
-            this.redisService.sortSetBroadCast(broadcast.id!!, followAddtion)
+            this.redisService.setSortBroadCast(broadcast.id!!, followAddtion)
         }
 
     }
