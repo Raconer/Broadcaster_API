@@ -43,7 +43,7 @@ class BroadcastService(
     @Transactional(readOnly = true)
     fun get(id:Long, email:String):BroadcastDetailDTO{
         var users:Users = this.userService.getByEmail(email)
-        var broadcastDetailDTO:BroadcastDetailDTO = this.broadcastRepositoryImpl.get(id, users.id!!)
+        var broadcastDetailDTO:BroadcastDetailDTO = this.broadcastRepositoryImpl.getBroadcast(id, users.id!!)
         broadcastDetailDTO.followCount = this.redisService.getSortBroadCast(id)
         return broadcastDetailDTO
     }

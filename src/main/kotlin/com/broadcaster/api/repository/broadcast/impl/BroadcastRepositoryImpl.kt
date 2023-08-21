@@ -20,7 +20,7 @@ class BroadcastRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
 ) {
 
-    fun get(id: Long, userId: Long): BroadcastDetailDTO {
+    fun getBroadcast(id: Long, userId: Long): BroadcastDetailDTO {
         val qBroadcast = QBroadcast.broadcast
         val qUsers = QUsers.users
         val qFollow = QFollow.follow
