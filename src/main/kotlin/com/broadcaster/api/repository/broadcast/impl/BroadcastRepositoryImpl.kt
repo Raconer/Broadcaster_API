@@ -19,6 +19,30 @@ import org.springframework.stereotype.Repository
 class BroadcastRepositoryImpl(
     private val jpaQueryFactory: JPAQueryFactory
 ) {
+    fun getUsers(id: Long, broadcastId: Long): UsersDataDTO {
+        val qUsers = QUsers.users
+        val qFollow = QFollow.follow
+
+        return this.jpaQueryFactory.select(
+            Projections.constructor(
+                UsersDataDTO::class.java,
+                qUsers.id,
+                qUsers.name
+            )
+        ).from(qUsers)
+            .innerJoin(qFollow)
+            .on(qFollow.users.id.eq(qUsers.id))
+            .where(
+                qFollow.users.id.eq(id)
+                .and(qFollow.broadcast.id.eq(broadcastId))
+                .and(
+                    qFollow.broadcastStatus.eq(FollowStatus.NORMAL)
+                        .and(qFollow.userStatus.eq(FollowStatus.NORMAL))
+                        .or(qFollow.broadcast.id.isNull)
+                )
+            ).fetchOne()
+            ?: throw CustomException("NOT FOUND USER DATA")
+    }
 
     fun getBroadcast(id: Long, userId: Long): BroadcastDetailDTO {
         val qBroadcast = QBroadcast.broadcast
@@ -40,7 +64,8 @@ class BroadcastRepositoryImpl(
             .where(
                 qBroadcast.id.eq(id)
                     .and(
-                        qFollow.broadcastStatus.eq(FollowStatus.NORMAL).and(qFollow.userStatus.eq(FollowStatus.NORMAL))
+                        qFollow.broadcastStatus.eq(FollowStatus.NORMAL)
+                            .and(qFollow.userStatus.eq(FollowStatus.NORMAL))
                             .or(qFollow.broadcast.id.isNull)
                     )
             )
@@ -56,7 +81,7 @@ class BroadcastRepositoryImpl(
                     qListener.name
                 )
             ).from(qListenerFollow)
-            .innerJoin(qListenerFollow.users, qListener)
+                .innerJoin(qListenerFollow.users, qListener)
                 .where(qListenerFollow.broadcast.id.eq(broadcastDetailDTO.id))
                 .fetch()
         }

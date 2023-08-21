@@ -6,6 +6,7 @@ import com.broadcaster.api.dto.broadcast.BroadcastDataDTO
 import com.broadcaster.api.dto.broadcast.BroadcastDetailDTO
 import com.broadcaster.api.dto.broadcast.BroadcastUpdateDTO
 import com.broadcaster.api.dto.sign.SignDTO
+import com.broadcaster.api.dto.users.UsersDataDTO
 import com.broadcaster.api.entity.broadcast.Broadcast
 import com.broadcaster.api.entity.follow.Follow
 import com.broadcaster.api.entity.users.Users
@@ -38,6 +39,13 @@ class BroadcastService(
 
         this.broadcastRepository.save(broadcast)
         this.redisService.setSortBroadCast(broadcast.id!!, 0)
+    }
+
+    @Transactional(readOnly = true)
+    fun getUsres(id: Long, email: String): UsersDataDTO {
+        var broadcast: Broadcast = this.broadcastRepository.findByUsersEmail(email)
+
+        return broadcastRepositoryImpl.getUsers(id, broadcast.id!!)
     }
 
     @Transactional(readOnly = true)
