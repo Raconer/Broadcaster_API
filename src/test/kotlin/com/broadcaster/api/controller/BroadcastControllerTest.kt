@@ -46,6 +46,37 @@ class BroadcastControllerTest @Autowired constructor(
     }
 
     @Test
+    @DisplayName("Fan 프로필 조회")
+    fun getUsers() {
+        // GIVEN
+        val followToken: String = this.jwtUtil.create(Broadcast.DJ_EMAIL)
+        val userId:Long = Broadcast.FOLLOW_USRE_ID
+
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("${this.PATH}/users/$userId")
+                .header("Authorization", "Bearer $followToken")
+        ).andExpect(MockMvcResultMatchers.status().isOk)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    @DisplayName("Fan 프로필 조회 - 방송국에서 차단시")
+    fun getUsersBlock() {
+        // GIVEN
+        val followToken: String = this.jwtUtil.create(Broadcast.DJ_EMAIL_2)
+        val userId:Long = Broadcast.FOLLOW_USRE_ID
+
+        // WHEN & THEN
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("${this.PATH}/users/$userId")
+                .header("Authorization", "Bearer $followToken")
+        ).andExpect(MockMvcResultMatchers.status().isInternalServerError)
+            .andDo(MockMvcResultHandlers.print())
+    }
+
+
+    @Test
     @DisplayName("방속국 프로필 조회")
     fun get() {
         // GIVEN

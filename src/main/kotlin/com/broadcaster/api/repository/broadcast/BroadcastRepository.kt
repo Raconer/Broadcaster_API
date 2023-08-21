@@ -4,5 +4,5 @@ import com.broadcaster.api.entity.broadcast.Broadcast
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface BroadcastRepository : JpaRepository<Broadcast, Int> {
-    fun findById(id:Long):Broadcast
+   fun findByUsersEmail(email:String):Broadcast
 }
